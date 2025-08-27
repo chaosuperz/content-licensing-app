@@ -1,40 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Content Licensing App
+
+A modern web application for licensing content using AI and blockchain technology. Built with Next.js, TypeScript, and Tailwind CSS.
+
+## Features
+
+- 🎯 **Simple Signup Flow** - Quick registration with name and email
+- 📄 **Content Licensing** - License your social media content with customizable permissions
+- 🔄 **Remix & Commercial Use** - Control how others can use your content
+- 💰 **Flexible Pricing** - Set prices in ETH, USDC, or offer for free
+- 🎉 **Success Tracking** - View your license details and earn creator tokens
+- 📱 **Responsive Design** - Works perfectly on all devices
+
+## Tech Stack
+
+- **Framework**: Next.js 14 with Pages Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: ShadCN UI
+- **Deployment**: Vercel-ready
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Local Development
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd content-licensing-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+4. Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Application Flow
 
-To learn more about Next.js, take a look at the following resources:
+1. **Home Page** (`/`) - Landing page with call-to-action
+2. **Signup** (`/signup`) - User registration with name and email
+3. **License** (`/license`) - Content licensing form with permissions
+4. **Registering** (`/registering`) - Loading state during "on-chain" registration
+5. **Success** (`/success`) - License confirmation and token rewards
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deploy to Vercel (Recommended)
 
-## Deploy on Vercel
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com) and sign up/login
+3. Click "New Project"
+4. Import your GitHub repository
+5. Vercel will auto-detect Next.js settings
+6. Click "Deploy"
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Your site will be live at `https://your-project-name.vercel.app`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+### Environment Variables
+
+No environment variables are required for this application.
+
+## Project Structure
+
+```
+src/
+├── pages/
+│   ├── index.tsx          # Home page
+│   ├── signup.tsx         # User signup
+│   ├── license.tsx        # License form
+│   ├── registering.tsx    # Loading state
+│   └── success.tsx        # Success page
+├── components/
+│   └── ui/                # ShadCN UI components
+└── styles/
+    └── globals.css        # Global styles
+```
+
+## Customization
+
+### Styling
+- Modify colors in `src/styles/globals.css`
+- Update Tailwind classes in components
+- Customize ShadCN UI theme in `components.json`
+
+### Content
+- Update text content in each page component
+- Modify form fields in `license.tsx`
+- Adjust success page rewards and scoring
+
+### Features
+- Add more license options
+- Integrate with real blockchain
+- Add user authentication
+- Implement file upload functionality
+
+## Performance
+
+The application is optimized with:
+- ✅ Next.js static generation
+- ✅ Tailwind CSS for minimal CSS
+- ✅ Optimized images and assets
+- ✅ Responsive design
+- ✅ Fast loading times
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+**Ready to deploy?** This application is production-ready and optimized for Vercel deployment! 🚀

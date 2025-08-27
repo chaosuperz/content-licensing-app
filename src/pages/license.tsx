@@ -28,7 +28,7 @@ export default function License() {
   return (
     <div className="min-h-screen text-gray-900 p-6" style={{ backgroundColor: '#fdf2f8' }}>
       <div className="max-w-xl mx-auto py-12">
-        <h2 className="text-2xl font-bold mb-6 text-center">Welcome, {user.name || 'creator'}! Let's license your content.</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Welcome, {user.name || 'creator'}! Let&apos;s license your content.</h2>
         
         <div className="space-y-6">
           <Input 

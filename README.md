@@ -10,6 +10,7 @@ A modern web application for licensing content using AI and blockchain technolog
 - 💰 **Flexible Pricing** - Set prices in ETH, USDC, or offer for free
 - 🎉 **Success Tracking** - View your license details and earn creator tokens
 - 📱 **Responsive Design** - Works perfectly on all devices
+- 📊 **Google Sheets Integration** - Automatically collect user data
 
 ## Tech Stack
 
@@ -17,6 +18,7 @@ A modern web application for licensing content using AI and blockchain technolog
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: ShadCN UI
+- **Data Collection**: Google Sheets via Apps Script
 - **Deployment**: Vercel-ready
 
 ## Getting Started
@@ -59,7 +61,17 @@ npm start
 2. **Signup** (`/signup`) - User registration with name and email
 3. **License** (`/license`) - Content licensing form with permissions
 4. **Registering** (`/registering`) - Loading state during "on-chain" registration
-5. **Success** (`/success`) - License confirmation and token rewards
+5. **Success** (`/success`) - License confirmation, token rewards, and data collection
+
+## Data Collection
+
+The app automatically collects user data in Google Sheets:
+- User signup information (name, email)
+- License details (content link, permissions, pricing)
+- Creator scores and token rewards
+- Timestamps for all activities
+
+See `GOOGLE_SHEETS_SETUP.md` for setup instructions.
 
 ## Deployment
 
@@ -87,9 +99,11 @@ src/
 │   ├── signup.tsx         # User signup
 │   ├── license.tsx        # License form
 │   ├── registering.tsx    # Loading state
-│   └── success.tsx        # Success page
+│   └── success.tsx        # Success page with data collection
 ├── components/
 │   └── ui/                # ShadCN UI components
+├── config/
+│   └── sheets.ts          # Google Sheets configuration
 └── styles/
     └── globals.css        # Global styles
 ```
@@ -142,4 +156,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Ready to deploy?** This application is production-ready and optimized for Vercel deployment! 🚀
+**Ready to deploy?** This application is production-ready and optimized for Vercel deployment with Google Sheets integration! 🚀

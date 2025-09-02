@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { GOOGLE_SHEETS_CONFIG, SheetData } from '@/config/sheets';
 
 interface LicenseData {
   link?: string;
@@ -12,15 +13,50 @@ interface LicenseData {
 
 export default function Success() {
   const [licenseData, setLicenseData] = useState<LicenseData>({});
+  const [dataSent, setDataSent] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const data = localStorage.getItem('license');
       if (data) {
-        setLicenseData(JSON.parse(data));
+        const parsedData = JSON.parse(data);
+        setLicenseData(parsedData);
+        
+        // Send data to Google Sheets
+        sendToGoogleSheets(parsedData);
       }
     }
   }, []);
+
+  const sendToGoogleSheets = async (data: LicenseData) => {
+    try {
+      const response = await fetch(GOOGLE_SHEETS_CONFIG.SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.user?.name || '',
+          email: data.user?.email || '',
+          link: data.link || '',
+          remix: data.remix || false,
+          commercial: data.commercial || false,
+          price: data.price || '',
+          creatorScore: '87',
+          tokensEarned: '100'
+        } as SheetData),
+      });
+
+      if (response.ok) {
+        setDataSent(true);
+        console.log('Data sent to Google Sheets successfully');
+      } else {
+        console.error('Failed to send data to Google Sheets');
+      }
+    } catch (error) {
+      console.error('Error sending data to Google Sheets:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen text-gray-900 p-6" style={{ backgroundColor: '#fdf2f8' }}>
@@ -29,6 +65,11 @@ export default function Success() {
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-3xl font-bold mb-2">License Created Successfully!</h1>
           <p className="text-gray-600">Your content is now protected on the blockchain</p>
+          {dataSent && (
+            <div className="mt-4 p-3 bg-green-100 border border-green-300 rounded-lg">
+              <p className="text-green-700 text-sm">✅ Your data has been saved to our records</p>
+            </div>
+          )}
         </div>
 
         <div className="bg-white rounded-lg p-6 mb-6 shadow-lg">

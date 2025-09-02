@@ -14,6 +14,7 @@ interface LicenseData {
 export default function Success() {
   const [licenseData, setLicenseData] = useState<LicenseData>({});
   const [dataSent, setDataSent] = useState(false);
+  const [dataStatus, setDataStatus] = useState<string>('');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -30,6 +31,19 @@ export default function Success() {
 
   const sendToGoogleSheets = async (data: LicenseData) => {
     try {
+      setDataStatus('Sending data to Google Sheets...');
+      
+      console.log('Sending data to Google Sheets:', {
+        name: data.user?.name || '',
+        email: data.user?.email || '',
+        link: data.link || '',
+        remix: data.remix || false,
+        commercial: data.commercial || false,
+        price: data.price || '',
+        creatorScore: '87',
+        tokensEarned: '100'
+      });
+
       const response = await fetch(GOOGLE_SHEETS_CONFIG.SCRIPT_URL, {
         method: 'POST',
         headers: {
@@ -47,14 +61,24 @@ export default function Success() {
         } as SheetData),
       });
 
+      console.log('Google Sheets response status:', response.status);
+      console.log('Google Sheets response:', response);
+
       if (response.ok) {
+        const responseData = await response.text();
+        console.log('Google Sheets response data:', responseData);
+        
         setDataSent(true);
+        setDataStatus('✅ Data sent successfully to Google Sheets!');
         console.log('Data sent to Google Sheets successfully');
       } else {
-        console.error('Failed to send data to Google Sheets');
+        const errorText = await response.text();
+        console.error('Failed to send data to Google Sheets:', response.status, errorText);
+        setDataStatus(`❌ Failed to send data (${response.status}): ${errorText}`);
       }
     } catch (error) {
       console.error('Error sending data to Google Sheets:', error);
+      setDataStatus(`❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -65,6 +89,12 @@ export default function Success() {
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-3xl font-bold mb-2">License Created Successfully!</h1>
           <p className="text-gray-600">Your content is now protected on the blockchain</p>
+          
+          {/* Data Status Display */}
+          <div className="mt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
+            <p className="text-blue-700 text-sm">{dataStatus}</p>
+          </div>
+          
           {dataSent && (
             <div className="mt-4 p-3 bg-green-100 border border-green-300 rounded-lg">
               <p className="text-green-700 text-sm">✅ Your data has been saved to our records</p>

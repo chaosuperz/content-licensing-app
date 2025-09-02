@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { GOOGLE_SHEETS_CONFIG, SheetData } from '@/config/sheets';
+import { TALLY_CONFIG, TallyData } from '@/config/sheets';
 
 interface LicenseData {
   link?: string;
@@ -23,17 +23,17 @@ export default function Success() {
         const parsedData = JSON.parse(data);
         setLicenseData(parsedData);
         
-        // Send data to Google Sheets
-        sendToGoogleSheets(parsedData);
+        // Send data to Tally form
+        sendToTally(parsedData);
       }
     }
   }, []);
 
-  const sendToGoogleSheets = async (data: LicenseData) => {
+  const sendToTally = async (data: LicenseData) => {
     try {
-      setDataStatus('Sending data to Google Sheets...');
+      setDataStatus('Sending data to Tally form...');
       
-      console.log('Sending data to Google Sheets:', {
+      console.log('Sending data to Tally form:', {
         name: data.user?.name || '',
         email: data.user?.email || '',
         link: data.link || '',
@@ -44,40 +44,36 @@ export default function Success() {
         tokensEarned: '100'
       });
 
-      const response = await fetch(GOOGLE_SHEETS_CONFIG.SCRIPT_URL, {
+      // Tally forms use a POST request with form data
+      const formData = new FormData();
+      formData.append(TALLY_CONFIG.FIELDS.NAME, data.user?.name || '');
+      formData.append(TALLY_CONFIG.FIELDS.EMAIL, data.user?.email || '');
+      formData.append(TALLY_CONFIG.FIELDS.LINK, data.link || '');
+      formData.append(TALLY_CONFIG.FIELDS.REMIX, data.remix ? 'Yes' : 'No');
+      formData.append(TALLY_CONFIG.FIELDS.COMMERCIAL, data.commercial ? 'Yes' : 'No');
+      formData.append(TALLY_CONFIG.FIELDS.PRICE, data.price || '');
+      formData.append(TALLY_CONFIG.FIELDS.CREATOR_SCORE, '87');
+      formData.append(TALLY_CONFIG.FIELDS.TOKENS_EARNED, '100');
+
+      const response = await fetch(TALLY_CONFIG.FORM_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.user?.name || '',
-          email: data.user?.email || '',
-          link: data.link || '',
-          remix: data.remix || false,
-          commercial: data.commercial || false,
-          price: data.price || '',
-          creatorScore: '87',
-          tokensEarned: '100'
-        } as SheetData),
+        body: formData,
       });
 
-      console.log('Google Sheets response status:', response.status);
-      console.log('Google Sheets response:', response);
+      console.log('Tally form response status:', response.status);
+      console.log('Tally form response:', response);
 
       if (response.ok) {
-        const responseData = await response.text();
-        console.log('Google Sheets response data:', responseData);
-        
         setDataSent(true);
-        setDataStatus('✅ Data sent successfully to Google Sheets!');
-        console.log('Data sent to Google Sheets successfully');
+        setDataStatus('✅ Data sent successfully to Tally form!');
+        console.log('Data sent to Tally form successfully');
       } else {
         const errorText = await response.text();
-        console.error('Failed to send data to Google Sheets:', response.status, errorText);
+        console.error('Failed to send data to Tally form:', response.status, errorText);
         setDataStatus(`❌ Failed to send data (${response.status}): ${errorText}`);
       }
     } catch (error) {
-      console.error('Error sending data to Google Sheets:', error);
+      console.error('Error sending data to Tally form:', error);
       setDataStatus(`❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
@@ -97,7 +93,7 @@ export default function Success() {
           
           {dataSent && (
             <div className="mt-4 p-3 bg-green-100 border border-green-300 rounded-lg">
-              <p className="text-green-700 text-sm">✅ Your data has been saved to our records</p>
+              <p className="text-green-700 text-sm">✅ Your data has been saved to our records via Tally</p>
             </div>
           )}
         </div>

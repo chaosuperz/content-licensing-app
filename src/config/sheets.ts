@@ -1,24 +1,23 @@
-// Google Sheets Configuration
-export const GOOGLE_SHEETS_CONFIG = {
-  // Google Apps Script Web App URL
-  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby_PVlT0XdOqQSR_mGjTthqFgkKNkfGxDmWX67DewUMA3Ok-0NRLTwnHY38HfiJKjmH/exec',
+// Tally Form Configuration
+export const TALLY_CONFIG = {
+  // Tally form URL
+  FORM_URL: 'https://tally.so/r/3jjqrY',
   
-  // Sheet column mapping
-  COLUMNS: {
-    TIMESTAMP: 'A',
-    NAME: 'B',
-    EMAIL: 'C',
-    LINK: 'D',
-    REMIX: 'E',
-    COMMERCIAL: 'F',
-    PRICE: 'G',
-    CREATOR_SCORE: 'H',
-    TOKENS_EARNED: 'I'
+  // Form field names (these should match your Tally form exactly)
+  FIELDS: {
+    NAME: 'Name',
+    EMAIL: 'Email',
+    LINK: 'Social Media Link',
+    REMIX: 'Allow Remix',
+    COMMERCIAL: 'Allow Commercial Use',
+    PRICE: 'Price',
+    CREATOR_SCORE: 'Creator Score',
+    TOKENS_EARNED: 'Tokens Earned'
   }
 };
 
-// Data structure for Google Sheets
-export interface SheetData {
+// Data structure for Tally form
+export interface TallyData {
   name: string;
   email: string;
   link: string;
